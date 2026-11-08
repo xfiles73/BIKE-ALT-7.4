@@ -9,13 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Rename pubspec_overrides_ci.yaml
-        shell: bash
-        run: |
-          if [ -f pubspec_overrides_ci.yaml ]; then
-            mv pubspec_overrides_ci.yaml pubspec_overrides.yaml
-          fi
-
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
