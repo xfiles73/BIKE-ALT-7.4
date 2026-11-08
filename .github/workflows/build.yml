@@ -2,14 +2,19 @@ name: Build Windows
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Rename pubspec_overrides_ci.yaml
+        shell: bash
+        run: |
+          if [ -f pubspec_overrides_ci.yaml ]; then
+            mv pubspec_overrides_ci.yaml pubspec_overrides.yaml
+          fi
 
       - uses: subosito/flutter-action@v2
         with:
@@ -18,6 +23,7 @@ jobs:
 
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
+      - run: dart run intl_utils:generate
       - run: flutter build windows --release
 
       - uses: actions/upload-artifact@v4
